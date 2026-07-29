@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursos Educativos - Aprendo Jugando</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#EAF6FF; --sun:#FFC857; --coral:#FF6F59; --grass:#06A77D;
+    --lav:#8E7DBE; --ink:#2B2D42; --white:#FFFFFF;
+    --card-shadow: 0 10px 0 rgba(43,45,66,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(circle at 20% 10%, #FFF6E0 0%, var(--sky) 45%, #DDEFFB 100%);
+    font-family:'Nunito', sans-serif; color:var(--ink); min-height:100vh;
+  }
+  .app{width:100%; max-width:800px; margin:0 auto; padding:24px 14px 60px;}
+  h1,h2,h3{font-family:'Baloo 2', sans-serif; margin:0;}
+  .hidden{display:none !important;}
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--white); border-radius:24px; padding:14px 20px;
+    box-shadow:var(--card-shadow); margin-bottom:18px; flex-wrap:wrap; gap:10px;
+  }
+  .topbar h1{font-size:clamp(18px,4vw,24px);}
+  .topbar h1 span{color:var(--coral);}
+  .stars{
+    display:flex; align-items:center; gap:6px; font-family:'Baloo 2', sans-serif;
+    font-weight:700; font-size:18px; background:#FFF6E0; padding:8px 16px; border-radius:999px;
+  }
+  .stars svg{width:24px;height:24px;}
+
+  .progress-track{width:100%; height:14px; background:#E4EDF5; border-radius:999px; overflow:hidden; margin-bottom:22px;}
+  .progress-fill{height:100%; background:linear-gradient(90deg, var(--grass), #4fd6ad); border-radius:999px; width:0%; transition:width .5s ease;}
+
+  .card{
+    background:var(--white); border-radius:28px; box-shadow:var(--card-shadow);
+    padding:26px 24px 28px; text-align:center; position:relative; overflow:hidden; margin-bottom:20px;
+  }
+
+  .mascot-row{display:flex; align-items:center; gap:14px; justify-content:center; margin-bottom:14px; flex-wrap:wrap;}
+  .mascot{width:70px;height:70px;flex:0 0 auto;}
+  .speech-bubble{
+    background:#FFF6E0; border-radius:20px; padding:12px 18px; font-family:'Baloo 2', sans-serif;
+    font-weight:700; font-size:clamp(15px,3.4vw,19px); max-width:460px; text-align:left;
+  }
+  .speak-btn{
+    border:none; background:var(--lav); color:white; width:40px; height:40px; border-radius:50%;
+    font-size:18px; cursor:pointer; flex:0 0 auto; box-shadow:0 4px 0 rgba(43,45,66,0.18);
+  }
+  .speak-btn:active{transform:translateY(3px); box-shadow:none;}
+
+  .btn{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:17px; border:none;
+    border-radius:999px; padding:13px 30px; cursor:pointer; color:white; background:var(--coral);
+    box-shadow:0 6px 0 #C74C3D; transition:transform .1s;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 2px 0 #C74C3D;}
+  .btn.secondary{background:var(--lav); box-shadow:0 6px 0 #6C5D9E;}
+  .btn.secondary:active{box-shadow:0 2px 0 #6C5D9E;}
+  .btn.grass{background:var(--grass); box-shadow:0 6px 0 #04815D;}
+  .btn.grass:active{box-shadow:0 2px 0 #04815D;}
+  .btn.small{padding:9px 20px; font-size:14px;}
+  .btn.next{display:none;}
+
+  /* ===== HOME ===== */
+  .home-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:600px){ .home-grid{grid-template-columns:1fr;} }
+  .home-card{
+    background:var(--white); border-radius:26px; padding:26px 18px; box-shadow:var(--card-shadow);
+    display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer;
+    border:4px solid transparent; transition:transform .12s, border-color .12s;
+  }
+  .home-card:hover{transform:translateY(-4px); border-color:var(--sun);}
+  .home-card .icon{font-size:56px;}
+  .home-card h3{font-size:19px;}
+  .home-card p{font-size:13px; color:#7C8698; margin:0;}
+
+  /* ===== MENU (Aprendo Jugando) ===== */
+  .menu-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:620px){ .menu-grid{grid-template-columns:1fr;} }
+  .menu-card{
+    background:var(--white); border-radius:24px; padding:22px 14px; box-shadow:var(--card-shadow);
+    display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer;
+    border:4px solid transparent; transition:transform .12s, border-color .12s;
+  }
+  .menu-card:hover{transform:translateY(-4px); border-color:var(--sun);}
+  .menu-card .icon{font-size:52px;}
+  .menu-card h3{font-size:18px;}
+  .menu-card p{font-size:13px; color:#7C8698; margin:0;}
+  .menu-card .badge{
+    font-family:'Baloo 2'; font-weight:700; font-size:13px; color:var(--grass);
+    background:#E4F9F0; padding:4px 12px; border-radius:999px;
+  }
+
+  /* ===== Reconozco: situaciones / opciones ===== */
+  .situation-box{
+    background:#F4F8FC; border-radius:20px; padding:20px; margin:18px 0 24px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+  }
+  .situation-icon{font-size:64px; line-height:1;}
+  .situation-text{font-family:'Baloo 2', sans-serif; font-weight:700; font-size:clamp(17px,4vw,21px); max-width:520px;}
+  .question-label{font-family:'Baloo 2', sans-serif; font-weight:700; color:var(--coral); font-size:clamp(18px,4.4vw,23px); margin-bottom:6px;}
+  .options{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:10px;}
+  @media (max-width:560px){ .options{grid-template-columns:1fr 1fr;} }
+  .opt-btn{
+    background:var(--white); border:4px solid #E4EDF5; border-radius:22px; padding:14px 8px 12px;
+    cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:8px;
+    transition:transform .12s, border-color .12s, background .12s;
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:15px; color:var(--ink);
+  }
+  .opt-btn:hover{transform:translateY(-3px); border-color:var(--sun);}
+  .opt-btn svg{width:64px;height:64px;}
+  .opt-btn.correct{background:#E4F9F0; border-color:var(--grass); animation:pop .4s ease;}
+  .opt-btn.wrong{background:#FFF0EE; border-color:var(--coral); animation:shake .35s ease;}
+  @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.12);}100%{transform:scale(1);}}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+  .feedback{margin-top:14px; min-height:30px; font-family:'Baloo 2', sans-serif; font-weight:700; font-size:18px;}
+  .feedback.good{color:var(--grass);}
+  .feedback.retry{color:var(--coral);}
+
+  /* ===== Rompecabezas ===== */
+  .puzzle-wrap{display:flex; flex-wrap:wrap; gap:26px; justify-content:center; margin-top:10px;}
+  .puzzle-board{display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; width:220px; height:220px; background:#F4F8FC; border-radius:18px; padding:8px;}
+  .puzzle-slot{background:#fff; border:3px dashed #D6E2EC; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:38px; cursor:pointer; transition:border-color .12s, background .12s;}
+  .puzzle-slot.filled{border-style:solid; border-color:var(--grass); background:#E4F9F0;}
+  .puzzle-slot .hint{opacity:.25;}
+  .puzzle-tray{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; width:150px; align-content:start;}
+  .puzzle-piece{background:#fff; border:4px solid #E4EDF5; border-radius:16px; font-size:36px; width:65px; height:65px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .12s, border-color .12s;}
+  .puzzle-piece.selected{border-color:var(--sun); transform:scale(1.08);}
+  .puzzle-piece.used{visibility:hidden;}
+
+  /* ===== Secuencias ===== */
+  .sequence-row{display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; background:#F4F8FC; border-radius:18px; padding:20px; margin:14px 0 20px; font-size:40px;}
+  .sequence-row .q-mark{width:56px; height:56px; border-radius:14px; background:#fff; border:3px dashed var(--coral); display:flex; align-items:center; justify-content:center; font-family:'Baloo 2'; font-weight:800; color:var(--coral); font-size:26px;}
+  .seq-options{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .seq-opt{background:#fff; border:4px solid #E4EDF5; border-radius:18px; width:74px; height:74px; font-size:38px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform .12s, border-color .12s, background .12s;}
+  .seq-opt:hover{transform:translateY(-3px); border-color:var(--sun);}
+  .seq-opt.correct{background:#E4F9F0; border-color:var(--grass); animation:pop .4s ease;}
+  .seq-opt.wrong{background:#FFF0EE; border-color:var(--coral); animation:shake .35s ease;}
+
+  /* ===== Asociacion ===== */
+  .memory-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:420px; margin:14px auto 20px;}
+  @media (max-width:460px){ .memory-grid{grid-template-columns:repeat(3,1fr);} }
+  .memory-card{aspect-ratio:1/1; background:linear-gradient(135deg,var(--lav),#6C5D9E); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:30px; cursor:pointer; color:white; user-select:none; transition:transform .15s;}
+  .memory-card.revealed{background:#fff; border:3px solid var(--sun); color:#000; transform:scale(1.03);}
+  .memory-card.matched{background:#E4F9F0; border:3px solid var(--grass); cursor:default;}
+
+  .final-stars{display:flex; justify-content:center; gap:8px; margin:14px 0 20px; flex-wrap:wrap;}
+  .final-stars svg{width:34px;height:34px;}
+  .medal{width:120px;height:120px;margin:0 auto 14px;display:block;}
+
+  .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:5;}
+  .confetti span{position:absolute; top:-10px; width:10px;height:14px; opacity:.9; animation:fall linear forwards; border-radius:2px;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(300deg); opacity:.2;}}
+
+  .footer-note{text-align:center; font-size:13px; color:#7C8698; margin-top:12px;}
+
+  /* ===== MÓDULO 3: ME COMUNICO CON LOS DEMÁS ===== */
+  .com-teatro{background:linear-gradient(180deg,#FCEFD9 0%, #F7E2BC 100%); border-radius:20px; padding:22px; position:relative; border:4px dashed var(--coral); margin:16px 0 20px;}
+  .com-cortina{position:absolute; top:0; width:50px; height:100%; background:var(--coral); opacity:.85;}
+  .com-cortina.izq{left:0; border-radius:0 26px 26px 0;}
+  .com-cortina.der{right:0; border-radius:26px 0 0 26px;}
+  .com-escena{position:relative; z-index:1; text-align:center; padding:0 36px;}
+  .com-personajes{display:flex; justify-content:center; gap:34px; margin-bottom:12px; font-size:50px;}
+  .com-globo{background:#fff; border-radius:16px; padding:12px 16px; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:16px; max-width:420px; margin:0 auto; box-shadow:0 4px 0 rgba(0,0,0,.08);}
+  .com-choices{display:flex; flex-direction:column; gap:12px; margin-top:6px;}
+  .com-choice{width:100%; background:#fff; border:4px solid #E4EDF5; border-radius:18px; padding:13px 16px; font-family:'Nunito',sans-serif; font-weight:700; font-size:15.5px; text-align:left; cursor:pointer; display:flex; align-items:center; gap:10px; transition:transform .12s, border-color .12s;}
+  .com-choice:hover{transform:translateY(-2px); border-color:var(--sun);}
+  .com-choice.correct{background:#E4F9F0; border-color:var(--grass); animation:pop .4s ease;}
+  .com-choice.wrong{background:#FFF0EE; border-color:var(--coral); animation:shake .35s ease;}
+  .com-choice.locked{cursor:default; pointer-events:none;}
+  .com-emotion-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:12px; margin:16px 0 18px;}
+  .com-emotion-card{background:#F4F8FC; border-radius:18px; padding:14px 8px; text-align:center; cursor:pointer; border:4px solid transparent; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:14px;}
+  .com-emotion-card .face{font-size:38px; display:block; margin-bottom:6px;}
+  .com-emotion-card.sel{border-color:var(--lav); background:#EFEBFA;}
+  .com-fillblank{font-size:17px; line-height:1.7; background:#F4F8FC; border-radius:16px; padding:16px 18px; margin:14px 0 18px; font-family:'Nunito',sans-serif;}
+  .com-blank{display:inline-block; min-width:110px; border-bottom:3px solid var(--lav); text-align:center; font-weight:800; color:var(--lav); font-family:'Baloo 2',sans-serif;}
+
+  /* ===== MÓDULO 4: LOS DÍAS Y LOS MESES ===== */
+  .dm-rejilla{display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin:16px 0 20px;}
+  .dm-carta{
+    width:130px; min-height:130px; background:#fff; border-radius:24px; box-shadow:var(--card-shadow);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+    padding:12px 6px; position:relative; cursor:pointer; border:4px solid #E4EDF5;
+    transition:transform .12s, border-color .12s; font-family:'Baloo 2',sans-serif;
+  }
+  .dm-carta:hover{transform:translateY(-3px);}
+  .dm-carta:active{transform:translateY(3px);}
+  .dm-carta .icono{font-size:30px;}
+  .dm-carta .silabas{font-weight:800; font-size:16px; text-align:center; line-height:1.15;}
+  .dm-carta .numero{
+    position:absolute; top:-8px; left:-8px; background:var(--lav); color:#fff;
+    width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:13px;
+  }
+  .dm-carta .corazon-ganado{
+    position:absolute; bottom:-8px; right:-6px; font-size:20px; opacity:0; transform:scale(0);
+    transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .dm-carta.completa{ border-color:var(--grass); background:#E4F9F0; }
+  .dm-carta.completa .corazon-ganado{ opacity:1; transform:scale(1); }
+  #dmScreenDias .dm-carta{ border-color:rgba(255,111,89,.35); }
+  #dmScreenMeses .dm-carta{ border-color:rgba(255,200,87,.6); }
+
+  .dm-modal-fondo{
+    position:fixed; inset:0; background:rgba(43,45,66,.55); display:none;
+    align-items:center; justify-content:center; padding:20px; z-index:50;
+  }
+  .dm-modal-fondo.abierto{ display:flex; }
+  .dm-modal{
+    background:#fff; border-radius:32px; padding:30px 24px 24px; max-width:380px; width:100%;
+    text-align:center; box-shadow:0 16px 0 rgba(43,45,66,.18);
+  }
+  .dm-modal .icono-grande{ font-size:56px; display:block; margin-bottom:6px; }
+  .dm-modal .silabas-grandes{
+    font-family:'Baloo 2',sans-serif; font-weight:800; font-size:clamp(30px,8vw,46px);
+    margin:8px 0 18px; line-height:1.2;
+  }
+  .dm-modal .silabas-grandes span{ padding:2px 6px; border-radius:10px; transition:all .15s ease; }
+  .dm-modal .silabas-grandes span.activa{ background:var(--lav); color:#fff; transform:scale(1.1); }
+
+  .dm-progreso-juego{ display:flex; justify-content:center; gap:4px; flex-wrap:wrap; margin-bottom:10px; }
+  .dm-progreso-juego .corazoncito{
+    font-size:18px; filter:grayscale(1) opacity(.35); transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .dm-progreso-juego .corazoncito.logrado{ filter:none; transform:scale(1.2); }
+
+  .dm-juego-centro{ display:flex; flex-direction:column; align-items:center; gap:22px; margin-top:10px; }
+  .dm-juego-tarjeta{
+    background:#F4F8FC; border-radius:28px; padding:24px 20px; display:flex; flex-direction:column;
+    align-items:center; gap:6px; width:min(88%,300px); cursor:pointer; border:4px solid #E4EDF5;
+  }
+  .dm-juego-tarjeta:active{ transform:translateY(4px); }
+  .dm-juego-tarjeta .icono-grande{ font-size:46px; }
+  .dm-juego-tarjeta .silabas-grandes{ font-family:'Baloo 2',sans-serif; font-weight:800; font-size:clamp(24px,6vw,32px); }
+  .dm-juego-tarjeta .pista{ font-size:13px; opacity:.55; font-weight:700; font-family:'Baloo 2',sans-serif; margin-top:2px; }
+  .dm-juego-tarjeta.volando{ animation:dmVolar .6s ease forwards; }
+  @keyframes dmVolar{ to{ transform:translateY(-40px) scale(.4); opacity:0; } }
+  .dm-juego-tarjeta.tiembla{ animation:dmTiembla .4s ease; }
+  @keyframes dmTiembla{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-8px);} 75%{transform:translateX(8px);} }
+
+  .dm-canastas{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .dm-canasta{
+    width:130px; min-height:110px; border-radius:26px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:4px; color:#fff; font-family:'Baloo 2',sans-serif;
+    font-weight:800; font-size:16px; box-shadow:var(--card-shadow); border:none; cursor:pointer;
+  }
+  .dm-canasta:active{ transform:translateY(4px); box-shadow:none; }
+  .dm-canasta-dias{ background:linear-gradient(160deg,var(--coral),#C74C3D); }
+  .dm-canasta-meses{ background:linear-gradient(160deg,var(--sun),#D89B1F); }
+  .dm-canasta .emoji{ font-size:32px; }
+  .dm-canasta.brillo{
+    box-shadow:0 0 0 5px var(--lav), var(--card-shadow);
+    animation:dmPulso 1s ease-in-out infinite;
+  }
+  @keyframes dmPulso{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+</style>
+</head>
+<body>
+
+  <!-- ===================== PORTADA / ENCABEZADO INSTITUCIONAL ===================== -->
+  <header style="background-color: #4F8E3A; padding: 15px 30px; display: flex; align-items: center; gap: 30px; flex-wrap:wrap;">
+    <img src="https://www.unl.edu.ec/sites/default/files/inline-images/logo_0.png" alt="Escudo Universidad Nacional de Loja" style="height: 80px;">
+    <h1 style="text-align:left; color:#fff; margin:0; font-family:'Baloo 2', sans-serif; font-size:clamp(20px,3vw,30px); line-height:1.2;">UNIVERSIDAD<br>NACIONAL DE LOJA</h1>
+    <img src="https://www.unl.edu.ec/sites/default/files/styles/large/public/contenido/galeria/2021-02/IMAGEN6.jpg" alt="Universidad Nacional de Loja" style="height: 70px; border-radius:8px; object-fit:cover;">
+    <h2 style="text-align: left; color:#fff; margin:0; font-family:'Baloo 2', sans-serif;">
+      CARRERA DE PEDAGOGÍA DE LAS CIENCIAS<br>
+      EXPERIMENTALES INFORMÁTICA
+    </h2>
+  </header>
+
+  <div style="max-width:900px; margin:0 auto; padding:20px 16px; font-family:'Nunito', sans-serif; color:#2B2D42;">
+    <h1 style="text-align: center; font-family:'Baloo 2', sans-serif;">VINCULACIÓN CON LA SOCIEDAD</h1>
+    <p><strong>TEMA:</strong> Orientación Educativa y Familiar para Prevención e Intervención de Problemáticas Sociales, Educativas y Familiares en la Comunidad Educativa</p>
+    <p><strong>DOCENTE TUTOR – UNL:</strong> Mgs. Stefani Juliana Bravo Valdivieso</p>
+    <p><strong>ESTUDIANTE:</strong> Darwin Efren Méndez Alulima</p>
+    <p><strong>CICLO:</strong> 6 <strong>PARALELO:</strong> A</p>
+    <p><strong>COLABORADORA DEL ÁREA DE PSICOPEDAGOGÍA:</strong> María Tillaguango</p>
+  </div>
+
+<div class="app">
+
+  <!-- ===================== PANTALLA DE INICIO (PORTAL) ===================== -->
+  <div class="card" id="screenHome">
+    <h1 style="margin-bottom:6px;">Recursos Educativos</h1>
+    <p style="color:#7C8698; margin-bottom:18px;">Elige el juego con el que quieres aprender hoy</p>
+    <div class="home-grid">
+      <div class="home-card" onclick="goToModule('emotions')">
+        <div class="icon">🎭</div>
+        <h3>Reconozco y Expreso mis Emociones</h3>
+        <p>Pictogramas para identificar y expresar emociones</p>
+      </div>
+      <div class="home-card" onclick="goToModule('learn')">
+        <div class="icon">🧩</div>
+        <h3>Aprendo Jugando</h3>
+        <p>Rompecabezas, secuencias y asociación de imágenes</p>
+      </div>
+      <div class="home-card" onclick="goToModule('comunico')">
+        <div class="icon">🗣️</div>
+        <h3>Me Comunico con los Demás</h3>
+        <p>Juegos de rol y conversación para relacionarme mejor</p>
+      </div>
+      <div class="home-card" onclick="goToModule('diasmeses')">
+        <div class="icon">💗</div>
+        <h3>Los Días y los Meses</h3>
+        <p>Aprendo y diferencio los días de la semana y los meses del año</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== MÓDULO 1: RECONOZCO Y EXPRESO MIS EMOCIONES ===================== -->
+  <div id="moduleEmotions" class="hidden">
+
+    <div class="topbar">
+      <h1>Reconozco y <span>Expreso</span> mis Emociones</h1>
+      <div class="stars">
+        <svg viewBox="0 0 24 24" fill="#FFC857"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>
+        <span id="emoStarCount">0</span> / <span id="emoStarTotal">10</span>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="emoProgressFill"></div></div>
+
+    <div class="card" id="emoScreenIntro">
+      <div class="mascot-row" style="flex-direction:column;">
+        <svg class="mascot" id="emoMascotIntro" viewBox="0 0 120 120"></svg>
+        <div class="speech-bubble">¡Hola! Soy Emo. Vamos a jugar y aprender sobre las emociones. ¿Estás listo?</div>
+      </div>
+      <button class="btn" style="margin-top:18px;" onclick="emoStartGame()">▶ Comenzar a jugar</button>
+      <p class="footer-note">10 retos · pictogramas · sin apuros, ¡a tu ritmo!</p>
+      <button class="btn secondary small" style="margin-top:10px;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+    <div class="card hidden" id="emoScreenGame">
+      <div class="mascot-row">
+        <svg class="mascot" id="emoMascotFace" viewBox="0 0 120 120" style="width:64px;height:64px;"></svg>
+        <div class="speech-bubble" id="emoPromptText" style="flex:1;"></div>
+        <button class="speak-btn" onclick="emoSpeakPrompt()" title="Escuchar">🔊</button>
+      </div>
+      <div class="situation-box" id="emoSituationBox">
+        <div class="situation-icon" id="emoSituationIcon"></div>
+        <div class="situation-text" id="emoSituationText"></div>
+      </div>
+      <div class="question-label" id="emoQuestionLabel"></div>
+      <div class="options" id="emoOptionsGrid"></div>
+      <div class="feedback" id="emoFeedback"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="emoNextBtn" onclick="emoNextQuestion()">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="emoScreenEnd">
+      <svg class="medal" id="emoMedalIcon" viewBox="0 0 100 100"></svg>
+      <h2 style="font-size:26px;color:var(--coral);">¡Lo lograste!</h2>
+      <p style="font-family:'Baloo 2'; font-weight:700; font-size:18px;" id="emoEndMessage"></p>
+      <div class="final-stars" id="emoFinalStars"></div>
+      <button class="btn secondary" onclick="emoRestartGame()">🔁 Jugar de nuevo</button>
+      <button class="btn small" style="margin-top:10px; display:block; margin-left:auto; margin-right:auto;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+  </div>
+
+  <!-- ===================== MÓDULO 2: APRENDO JUGANDO ===================== -->
+  <div id="moduleLearn" class="hidden">
+
+    <div class="topbar">
+      <h1>Aprendo <span>Jugando</span></h1>
+      <div class="stars">
+        <svg viewBox="0 0 24 24" fill="#FFC857"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>
+        <span id="lrnStarCount">0</span> / <span id="lrnStarTotal">19</span>
+      </div>
+    </div>
+
+    <div class="card" id="lrnScreenMenu">
+      <div class="mascot-row">
+        <svg class="mascot" id="lrnMascotMenu" viewBox="0 0 120 120"></svg>
+        <div class="speech-bubble">¡Hola otra vez! Elige un juego para empezar. Puedes jugarlos en el orden que quieras.</div>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card" onclick="lrnOpenActivity('puzzle')">
+          <div class="icon">🧩</div>
+          <h3>Rompecabezas</h3>
+          <p>Arma la escena colocando cada pieza en su lugar</p>
+          <span class="badge" id="lrnBadgePuzzle">0 / 8 ⭐</span>
+        </div>
+        <div class="menu-card" onclick="lrnOpenActivity('sequence')">
+          <div class="icon">🔢</div>
+          <h3>Secuencias</h3>
+          <p>Descubre qué sigue en cada patrón</p>
+          <span class="badge" id="lrnBadgeSequence">0 / 5 ⭐</span>
+        </div>
+        <div class="menu-card" onclick="lrnOpenActivity('memory')">
+          <div class="icon">🔗</div>
+          <h3>Asociación</h3>
+          <p>Encuentra las parejas que van juntas</p>
+          <span class="badge" id="lrnBadgeMemory">0 / 6 ⭐</span>
+        </div>
+      </div>
+      <p class="footer-note">Sin tiempo límite · a tu ritmo · refuerzo positivo</p>
+      <button class="btn secondary small" style="margin-top:10px;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+    <div class="card hidden" id="lrnScreenPuzzle">
+      <div class="mascot-row">
+        <svg class="mascot" id="lrnMascotPuzzle" viewBox="0 0 120 120" style="width:56px;height:56px;"></svg>
+        <div class="speech-bubble" id="lrnPuzzlePrompt" style="flex:1;"></div>
+        <button class="speak-btn" onclick="lrnSpeak('lrnPuzzlePrompt')">🔊</button>
+      </div>
+      <h3 id="lrnPuzzleTitle" style="margin-bottom:10px;"></h3>
+      <div class="puzzle-wrap">
+        <div class="puzzle-board" id="lrnPuzzleBoard"></div>
+        <div class="puzzle-tray" id="lrnPuzzleTray"></div>
+      </div>
+      <div class="feedback" id="lrnPuzzleFeedback"></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="lrnBackToMenu()">⬅ Menú del juego</button>
+        <button class="btn grass next" id="lrnPuzzleNextBtn" onclick="lrnNextPuzzle()">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="lrnScreenSequence">
+      <div class="mascot-row">
+        <svg class="mascot" id="lrnMascotSequence" viewBox="0 0 120 120" style="width:56px;height:56px;"></svg>
+        <div class="speech-bubble" id="lrnSequencePrompt" style="flex:1;">¿Qué figura sigue en la fila?</div>
+        <button class="speak-btn" onclick="lrnSpeak('lrnSequencePrompt')">🔊</button>
+      </div>
+      <div class="sequence-row" id="lrnSequenceRow"></div>
+      <div class="seq-options" id="lrnSequenceOptions"></div>
+      <div class="feedback" id="lrnSequenceFeedback"></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="lrnBackToMenu()">⬅ Menú del juego</button>
+        <button class="btn grass next" id="lrnSequenceNextBtn" onclick="lrnNextSequence()">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="lrnScreenMemory">
+      <div class="mascot-row">
+        <svg class="mascot" id="lrnMascotMemory" viewBox="0 0 120 120" style="width:56px;height:56px;"></svg>
+        <div class="speech-bubble">Toca dos tarjetas y busca las que van juntas.</div>
+      </div>
+      <div class="memory-grid" id="lrnMemoryGrid"></div>
+      <div class="feedback" id="lrnMemoryFeedback"></div>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:6px; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="lrnBackToMenu()">⬅ Menú del juego</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="lrnScreenEnd">
+      <svg class="medal" id="lrnMedalIcon" viewBox="0 0 100 100"></svg>
+      <h2 style="font-size:24px;color:var(--coral);">¡Excelente trabajo!</h2>
+      <p style="font-family:'Baloo 2'; font-weight:700; font-size:17px;" id="lrnEndMessage"></p>
+      <div class="final-stars" id="lrnFinalStars"></div>
+      <button class="btn secondary" onclick="lrnRestartAll()">🔁 Jugar todo de nuevo</button>
+      <button class="btn small" style="margin-top:10px; display:block; margin-left:auto; margin-right:auto;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+  </div>
+
+  <!-- ===================== MÓDULO 3: ME COMUNICO CON LOS DEMÁS ===================== -->
+  <div id="moduleComunico" class="hidden">
+
+    <div class="topbar">
+      <h1>Me <span>Comunico</span> con los Demás</h1>
+      <div class="stars">
+        <svg viewBox="0 0 24 24" fill="#FFC857"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>
+        <span id="comStarCount">0</span> / <span id="comStarTotal">5</span>
+      </div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="comProgressFill"></div></div>
+
+    <div class="card" id="comScreenIntro">
+      <div class="mascot-row" style="flex-direction:column;">
+        <div style="font-size:54px;">🦉</div>
+        <div class="speech-bubble">¡Hola! Hoy vamos a jugar a conversar con otras personas: saludar, pedir ayuda, compartir y hablar con respeto. ¡Tú decides qué dicen los personajes!</div>
+      </div>
+      <button class="btn" style="margin-top:18px;" onclick="comIrPantalla('juego1')">▶ Comenzar a jugar</button>
+      <p class="footer-note">5 retos · juegos de rol · sin apuros, a tu ritmo</p>
+      <button class="btn secondary small" style="margin-top:10px;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+    <div class="card hidden" id="comScreenJuego1">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🦊</div>
+        <div class="speech-bubble" style="flex:1;" id="comTexto1">Zorro llega a un lugar nuevo y ve a Oso por primera vez. ¿Qué le dice Zorro para saludar?</div>
+        <button class="speak-btn" onclick="comSpeak('comTexto1')" title="Escuchar">🔊</button>
+      </div>
+      <div class="com-teatro">
+        <div class="com-cortina izq"></div><div class="com-cortina der"></div>
+        <div class="com-escena">
+          <div class="com-personajes"><span>🦊</span><span>🐻</span></div>
+          <div class="com-globo">Oso: "¡Hola! No te conozco todavía..."</div>
+        </div>
+      </div>
+      <div class="com-choices" id="comOp1">
+        <button class="com-choice" data-ok="1" onclick="comElegir(this,1)">😊 "¡Hola! Me llamo Zorro. ¿Cómo te llamas tú?"</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,1)">🙄 (No decir nada y mirar hacia otro lado)</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,1)">😤 "Vete, este lugar es mío."</button>
+      </div>
+      <div class="feedback" id="comFb1"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="comSig1" onclick="comIrPantalla('juego2')">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="comScreenJuego2">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🐻</div>
+        <div class="speech-bubble" style="flex:1;" id="comTexto2">Oso se cayó y le duele un poco la rodilla. ¿Qué puede decir Oso para pedir ayuda a Zorro?</div>
+        <button class="speak-btn" onclick="comSpeak('comTexto2')" title="Escuchar">🔊</button>
+      </div>
+      <div class="com-teatro">
+        <div class="com-cortina izq"></div><div class="com-cortina der"></div>
+        <div class="com-escena">
+          <div class="com-personajes"><span>🐻</span><span>🦊</span></div>
+          <div class="com-globo">Oso se cayó y le duele la rodilla.</div>
+        </div>
+      </div>
+      <div class="com-choices" id="comOp2">
+        <button class="com-choice" data-ok="1" onclick="comElegir(this,2)">🙋 "Zorro, ¿me ayudas, por favor? Me duele la rodilla."</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,2)">😢 (Quedarse callado y llorar sin decir nada)</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,2)">😡 "¡Esto es tu culpa!"</button>
+      </div>
+      <div class="feedback" id="comFb2"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="comSig2" onclick="comIrPantalla('juego3')">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="comScreenJuego3">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🦊</div>
+        <div class="speech-bubble" style="flex:1;" id="comTexto3">Zorro tiene un juguete y a Oso le gustaría jugar también. ¿Qué le dice Zorro?</div>
+        <button class="speak-btn" onclick="comSpeak('comTexto3')" title="Escuchar">🔊</button>
+      </div>
+      <div class="com-teatro">
+        <div class="com-cortina izq"></div><div class="com-cortina der"></div>
+        <div class="com-escena">
+          <div class="com-personajes"><span>🦊</span><span>🐻</span></div>
+          <div class="com-globo">Oso: "¡Qué juguete tan lindo!"</div>
+        </div>
+      </div>
+      <div class="com-choices" id="comOp3">
+        <button class="com-choice" data-ok="1" onclick="comElegir(this,3)">🤝 "¿Quieres jugar conmigo? Podemos turnarnos."</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,3)">🙅 "No, es solo mío."</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,3)">🏃 (Salir corriendo con el juguete)</button>
+      </div>
+      <div class="feedback" id="comFb3"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="comSig3" onclick="comIrPantalla('emociones')">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="comScreenEmociones">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🐻</div>
+        <div class="speech-bubble" style="flex:1;" id="comTextoEmo">Oso perdió su juguete favorito. ¿Cómo crees que se siente? Toca la carita correcta.</div>
+        <button class="speak-btn" onclick="comSpeak('comTextoEmo')" title="Escuchar">🔊</button>
+      </div>
+      <div class="com-emotion-grid" id="comEmoGrid">
+        <div class="com-emotion-card" data-e="feliz"><span class="face">😄</span>Feliz</div>
+        <div class="com-emotion-card" data-e="triste"><span class="face">😢</span>Triste</div>
+        <div class="com-emotion-card" data-e="enojado"><span class="face">😠</span>Enojado</div>
+        <div class="com-emotion-card" data-e="asustado"><span class="face">😨</span>Asustado</div>
+      </div>
+      <div class="feedback" id="comFbEmo"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="comSigEmo" onclick="comIrPantalla('frase')">Siguiente ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="comScreenFrase">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🦊</div>
+        <div class="speech-bubble" style="flex:1;" id="comTextoFrase">Lee la conversación y elige la palabra que falta para responder con respeto.</div>
+        <button class="speak-btn" onclick="comSpeak('comTextoFrase')" title="Escuchar">🔊</button>
+      </div>
+      <div class="com-fillblank">
+        Oso dice: "Estoy triste porque perdí mi juguete." <br>
+        Zorro responde: "<span class="com-blank" id="comHueco">___</span>, ¿quieres que te ayude a buscarlo?"
+      </div>
+      <div class="com-choices" id="comOp5">
+        <button class="com-choice" data-ok="1" onclick="comElegir(this,5)">💛 "Lo siento mucho"</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,5)">🚫 "No me importa"</button>
+        <button class="com-choice" data-ok="0" onclick="comElegir(this,5)">🚫 "Es tu problema"</button>
+      </div>
+      <div class="feedback" id="comFb5"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button class="btn secondary small" onclick="goHome()">🏠 Menú principal</button>
+        <button class="btn grass next" id="comSig5" onclick="comIrPantalla('end')">Ver mis estrellas ➜</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="comScreenEnd">
+      <svg class="medal" id="comMedalIcon" viewBox="0 0 100 100"></svg>
+      <h2 style="font-size:24px;color:var(--coral);">¡Lo lograste!</h2>
+      <p style="font-family:'Baloo 2'; font-weight:700; font-size:17px;" id="comEndMessage"></p>
+      <div class="final-stars" id="comFinalStars"></div>
+      <button class="btn secondary" onclick="comRestart()">🔁 Jugar de nuevo</button>
+      <button class="btn small" style="margin-top:10px; display:block; margin-left:auto; margin-right:auto;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+  </div>
+
+  <!-- ===================== MÓDULO 4: LOS DÍAS Y LOS MESES ===================== -->
+  <div id="moduleDiasMeses" class="hidden">
+
+    <div class="topbar">
+      <h1>Los <span>Días</span> y los Meses</h1>
+      <div class="stars">
+        <svg viewBox="0 0 24 24" fill="#FFC857"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>
+        <span id="dmStarCount">0</span> / <span id="dmStarTotal">19</span>
+      </div>
+    </div>
+
+    <div class="card" id="dmScreenMenu">
+      <div class="mascot-row">
+        <div style="font-size:54px;">💗</div>
+        <div class="speech-bubble">¡Hola! Toca una palabra y la escucharás sílaba por sílaba. Elige un juego para empezar.</div>
+      </div>
+      <div class="menu-grid">
+        <div class="menu-card" onclick="dmGoToScreen('dias')">
+          <div class="icon">💗</div>
+          <h3>Los Días</h3>
+          <p>Escucha y aprende los 7 días de la semana</p>
+          <span class="badge" id="dmBadgeDias">0 / 7 ⭐</span>
+        </div>
+        <div class="menu-card" onclick="dmGoToScreen('meses')">
+          <div class="icon">💛</div>
+          <h3>Los Meses</h3>
+          <p>Escucha y aprende los 12 meses del año</p>
+          <span class="badge" id="dmBadgeMeses">0 / 12 ⭐</span>
+        </div>
+        <div class="menu-card" onclick="dmGoToScreen('juego')">
+          <div class="icon">🎯</div>
+          <h3>Diferenciar</h3>
+          <p>Descubre si es un día de la semana o un mes del año</p>
+          <span class="badge" id="dmBadgeJuego">0 / 19 ⭐</span>
+        </div>
+      </div>
+      <p class="footer-note">Sin tiempo límite · a tu ritmo · refuerzo positivo</p>
+      <button class="btn secondary small" style="margin-top:10px;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+    <div class="card hidden" id="dmScreenDias">
+      <div class="mascot-row">
+        <div style="font-size:40px;">💗</div>
+        <div class="speech-bubble" style="flex:1;">Toca cada tarjeta para escuchar el día, sílaba por sílaba.</div>
+      </div>
+      <div class="dm-rejilla" id="dmRejillaDias"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="dmGoToScreen('menu')">⬅ Menú del juego</button>
+        <button class="btn small" onclick="goHome()">🏠 Menú principal</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="dmScreenMeses">
+      <div class="mascot-row">
+        <div style="font-size:40px;">💛</div>
+        <div class="speech-bubble" style="flex:1;">Toca cada tarjeta para escuchar el mes, sílaba por sílaba.</div>
+      </div>
+      <div class="dm-rejilla" id="dmRejillaMeses"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn secondary small" onclick="dmGoToScreen('menu')">⬅ Menú del juego</button>
+        <button class="btn small" onclick="goHome()">🏠 Menú principal</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="dmScreenJuego">
+      <div class="mascot-row">
+        <div style="font-size:40px;">🎯</div>
+        <div class="speech-bubble" style="flex:1;">Escucha la palabra y toca la canasta correcta: ¿es un día o un mes?</div>
+      </div>
+      <div class="dm-progreso-juego" id="dmProgresoJuego"></div>
+      <div class="dm-juego-centro">
+        <div class="dm-juego-tarjeta" id="dmJuegoTarjeta" onclick="dmEscucharJuego()">
+          <span class="icono-grande" id="dmJuegoIcono">🌞</span>
+          <span class="silabas-grandes" id="dmJuegoSilabas"></span>
+          <span class="pista">🔊 Toca para escuchar</span>
+        </div>
+        <div class="dm-canastas">
+          <button class="dm-canasta dm-canasta-dias" id="dmCanastaDias" onclick="dmResponderJuego('dias')">
+            <span class="emoji">📅</span><span>Semana</span>
+          </button>
+          <button class="dm-canasta dm-canasta-meses" id="dmCanastaMeses" onclick="dmResponderJuego('meses')">
+            <span class="emoji">🗓️</span><span>Año</span>
+          </button>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+        <button class="btn secondary small" onclick="dmGoToScreen('menu')">⬅ Menú del juego</button>
+        <button class="btn small" onclick="goHome()">🏠 Menú principal</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="dmScreenEnd">
+      <svg class="medal" id="dmMedalIcon" viewBox="0 0 100 100"></svg>
+      <h2 style="font-size:24px;color:var(--coral);">¡Excelente trabajo!</h2>
+      <p style="font-family:'Baloo 2'; font-weight:700; font-size:17px;" id="dmEndMessage"></p>
+      <div class="final-stars" id="dmFinalStars"></div>
+      <button class="btn secondary" onclick="dmRestartAll()">🔁 Jugar todo de nuevo</button>
+      <button class="btn small" style="margin-top:10px; display:block; margin-left:auto; margin-right:auto;" onclick="goHome()">🏠 Menú principal</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal para pronunciar la palabra sílaba por sílaba -->
+<div class="dm-modal-fondo" id="dmModalFondo">
+  <div class="dm-modal">
+    <span class="icono-grande" id="dmModalIcono">🌞</span>
+    <div class="silabas-grandes" id="dmModalSilabas"></div>
+    <button class="btn" style="width:100%; margin-bottom:10px;" id="dmBtnEscuchar" onclick="dmReproducirActual()">🔊 Escuchar</button>
+    <button class="btn secondary" style="width:100%;" onclick="dmCerrarModal()">Cerrar 💗</button>
+  </div>
+</div>
+
+<script>
+/* ===================== NAVEGACIÓN GENERAL DEL PORTAL ===================== */
+function goHome(){
+  document.getElementById("screenHome").classList.remove("hidden");
+  document.getElementById("moduleEmotions").classList.add("hidden");
+  document.getElementById("moduleLearn").classList.add("hidden");
+  document.getElementById("moduleComunico").classList.add("hidden");
+  document.getElementById("moduleDiasMeses").classList.add("hidden");
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+function goToModule(name){
+  document.getElementById("screenHome").classList.add("hidden");
+  document.getElementById("moduleEmotions").classList.toggle("hidden", name !== "emotions");
+  document.getElementById("moduleLearn").classList.toggle("hidden", name !== "learn");
+  document.getElementById("moduleComunico").classList.toggle("hidden", name !== "comunico");
+  document.getElementById("moduleDiasMeses").classList.toggle("hidden", name !== "diasmeses");
+}
+
+/* Confeti compartido por ambos módulos */
+function launchConfetti(){
+  const holder = document.createElement("div");
+  holder.className = "confetti";
+  document.body.appendChild(holder);
+  const colors = ["#FFC857","#FF6F59","#06A77D","#8E7DBE"];
+  for(let i=0;i<24;i++){
+    const s = document.createElement("span");
+    s.style.left = Math.random()*100 + "vw";
+    s.style.background = colors[Math.floor(Math.random()*colors.length)];
+    s.style.animationDuration = (1.6 + Math.random()*1.2) + "s";
+    s.style.animationDelay = (Math.random()*0.3)+"s";
+    holder.appendChild(s);
+  }
+  setTimeout(()=> holder.remove(), 3200);
+}
+
+/* ===================================================================
+   MÓDULO 1: RECONOZCO Y EXPRESO MIS EMOCIONES  (prefijo emo)
+   =================================================================== */
+const EMOTIONS = {
+  feliz:   { label:"Feliz",       color:"#FFC857", mouth:"smile",  brow:"up" },
+  triste:  { label:"Triste",      color:"#7DA9D8", mouth:"sad",    brow:"down" },
+  enojado: { label:"Enojado/a",   color:"#FF6F59", mouth:"angry",  brow:"angry" },
+  miedo:   { label:"Con miedo",   color:"#8E7DBE", mouth:"scared", brow:"scared" },
+  sorpresa:{ label:"Sorprendido/a", color:"#06A77D", mouth:"surprised", brow:"surprised" }
+};
+
+function emoFaceSVG(key, size){
+  const e = EMOTIONS[key];
+  let mouthPath = "", brows = "";
+  switch(e.mouth){
+    case "smile": mouthPath = `<path d="M35 68 Q60 92 85 68" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>`; break;
+    case "sad": mouthPath = `<path d="M35 82 Q60 60 85 82" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>`; break;
+    case "angry": mouthPath = `<path d="M38 80 Q60 68 82 80" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>`; break;
+    case "scared": mouthPath = `<ellipse cx="60" cy="76" rx="12" ry="16" fill="#2B2D42"/>`; break;
+    case "surprised": mouthPath = `<circle cx="60" cy="78" r="12" fill="#2B2D42"/>`; break;
+  }
+  switch(e.brow){
+    case "up": brows = `<path d="M32 40 Q40 32 48 38" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M72 38 Q80 32 88 40" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/>`; break;
+    case "down": brows = `<path d="M32 36 Q40 44 48 40" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M72 40 Q80 44 88 36" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/>`; break;
+    case "angry": brows = `<path d="M30 34 L50 42" stroke="#2B2D42" stroke-width="6" stroke-linecap="round"/><path d="M90 34 L70 42" stroke="#2B2D42" stroke-width="6" stroke-linecap="round"/>`; break;
+    case "scared": brows = `<path d="M32 34 Q40 28 50 34" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M70 34 Q80 28 88 34" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/>`; break;
+    case "surprised": brows = `<path d="M32 30 Q40 24 50 30" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M70 30 Q80 24 88 30" stroke="#2B2D42" stroke-width="5" fill="none" stroke-linecap="round"/>`; break;
+  }
+  const eyeR = e.mouth === "surprised" || e.mouth === "scared" ? 8 : 6;
+  return `<svg viewBox="0 0 120 120" width="${size}" height="${size}">
+    <circle cx="60" cy="60" r="52" fill="${e.color}" stroke="#2B2D42" stroke-width="5"/>
+    <circle cx="42" cy="55" r="${eyeR}" fill="#2B2D42"/>
+    <circle cx="78" cy="55" r="${eyeR}" fill="#2B2D42"/>
+    ${brows}${mouthPath}
+  </svg>`;
+}
+function emoMascotSVG(mood){
+  const key = mood || "feliz";
+  return emoFaceSVG(key, 90).replace('width="90" height="90"', 'width="100%" height="100%"');
+}
+
+const emoSituaciones = {
+  cumple:  { icon:"🎂", text:"Hoy es tu cumpleaños y te regalan algo que querías mucho.", emo:"feliz" },
+  juguete: { icon:"🧸", text:"Tu juguete favorito se rompió.", emo:"triste" },
+  hermano: { icon:"🚫", text:"Tu hermano te quita tu juego sin pedir permiso.", emo:"enojado" },
+  arana:   { icon:"🕷️", text:"Ves una araña grande muy cerca de ti.", emo:"miedo" },
+  caja:    { icon:"🎁", text:"Abres una caja y salta algo que no esperabas.", emo:"sorpresa" },
+  amigo:   { icon:"🤝", text:"Un amigo te invita a jugar en el recreo.", emo:"feliz" },
+  perdido: { icon:"🧭", text:"Te separas de tu familia en un lugar grande.", emo:"miedo" },
+  lluvia:  { icon:"🌧️", text:"Se cancela el paseo porque está lloviendo.", emo:"triste" },
+  grito:   { icon:"😲", text:"Alguien aparece de repente y te dice '¡sorpresa!'.", emo:"sorpresa" },
+  fila:    { icon:"⛔", text:"Un compañero se mete en la fila sin hacer caso.", emo:"enojado" }
+};
+
+const emoQuestions = [
+  {type:"reconozco", sit:"cumple",  correct:"feliz"},
+  {type:"expreso",   emo:"triste",  correct:"juguete", opts:["juguete","cumple","fila"]},
+  {type:"reconozco", sit:"hermano", correct:"enojado"},
+  {type:"expreso",   emo:"miedo",   correct:"arana",   opts:["arana","amigo","lluvia"]},
+  {type:"reconozco", sit:"caja",    correct:"sorpresa"},
+  {type:"expreso",   emo:"feliz",   correct:"amigo",   opts:["amigo","juguete","perdido"]},
+  {type:"reconozco", sit:"perdido", correct:"miedo"},
+  {type:"expreso",   emo:"enojado", correct:"fila",    opts:["fila","cumple","grito"]},
+  {type:"reconozco", sit:"lluvia",  correct:"triste"},
+  {type:"expreso",   emo:"sorpresa",correct:"grito",   opts:["grito","hermano","arana"]}
+];
+const emoAllKeys = Object.keys(EMOTIONS);
+let emoIdx = 0, emoStars = 0, emoAnswered = false;
+document.getElementById("emoStarTotal").textContent = emoQuestions.length;
+
+function emoPickDistractors(correctKey, pool, n){
+  const opts = new Set([correctKey]);
+  const shuffled = pool.slice().sort(()=>Math.random()-0.5);
+  for(const k of shuffled){ if(opts.size>=n) break; if(k!==correctKey) opts.add(k); }
+  return Array.from(opts).sort(()=>Math.random()-0.5);
+}
+
+function emoStartGame(){
+  document.getElementById("emoScreenIntro").classList.add("hidden");
+  document.getElementById("emoScreenGame").classList.remove("hidden");
+  document.getElementById("emoMascotIntro").innerHTML = emoMascotSVG("feliz");
+  emoRenderQuestion();
+}
+
+function emoRenderQuestion(){
+  emoAnswered = false;
+  const q = emoQuestions[emoIdx];
+  document.getElementById("emoNextBtn").style.display = "none";
+  document.getElementById("emoFeedback").textContent = "";
+  document.getElementById("emoFeedback").className = "feedback";
+  document.getElementById("emoProgressFill").style.width = (emoIdx/emoQuestions.length*100) + "%";
+  document.getElementById("emoMascotFace").innerHTML = emoMascotSVG("feliz");
+
+  if(q.type === "reconozco"){
+    const s = emoSituaciones[q.sit];
+    document.getElementById("emoPromptText").textContent = "Mira la situación. ¿Cómo se siente?";
+    document.getElementById("emoSituationBox").style.display = "flex";
+    document.getElementById("emoSituationIcon").textContent = s.icon;
+    document.getElementById("emoSituationText").textContent = s.text;
+    document.getElementById("emoQuestionLabel").textContent = "Elige el pictograma correcto:";
+    const opts = emoPickDistractors(q.correct, emoAllKeys, 3);
+    const grid = document.getElementById("emoOptionsGrid");
+    grid.innerHTML = "";
+    opts.forEach(key=>{
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.innerHTML = emoFaceSVG(key, 64) + `<span>${EMOTIONS[key].label}</span>`;
+      btn.onclick = ()=> emoHandleAnswer(btn, key === q.correct);
+      grid.appendChild(btn);
+    });
+  } else {
+    const e = EMOTIONS[q.emo];
+    document.getElementById("emoPromptText").textContent = `Emo se siente así: ${e.label}. ¿Qué situación corresponde?`;
+    document.getElementById("emoSituationBox").style.display = "flex";
+    document.getElementById("emoSituationIcon").innerHTML = "";
+    document.getElementById("emoSituationIcon").appendChild(emoNodeFromHTML(emoFaceSVG(q.emo, 70)));
+    document.getElementById("emoSituationText").textContent = `"${e.label}"`;
+    document.getElementById("emoQuestionLabel").textContent = "Elige la situación correcta:";
+    const grid = document.getElementById("emoOptionsGrid");
+    grid.innerHTML = "";
+    q.opts.forEach(sitKey=>{
+      const s = emoSituaciones[sitKey];
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.innerHTML = `<div style="font-size:40px;">${s.icon}</div><span style="font-size:13px;">${s.text}</span>`;
+      btn.onclick = ()=> emoHandleAnswer(btn, sitKey === q.correct);
+      grid.appendChild(btn);
+    });
+  }
+}
+
+function emoNodeFromHTML(html){ const div = document.createElement("div"); div.innerHTML = html; return div.firstElementChild; }
+
+function emoHandleAnswer(btn, isCorrect){
+  if(emoAnswered) return;
+  const buttons = document.querySelectorAll("#emoOptionsGrid .opt-btn");
+  if(isCorrect){
+    emoAnswered = true;
+    btn.classList.add("correct");
+    document.getElementById("emoFeedback").textContent = "¡Muy bien! 🎉 Ganaste una estrella.";
+    document.getElementById("emoFeedback").className = "feedback good";
+    document.getElementById("emoMascotFace").innerHTML = emoMascotSVG(emoQuestions[emoIdx].type==="reconozco" ? emoQuestions[emoIdx].correct : emoQuestions[emoIdx].emo);
+    emoStars++;
+    document.getElementById("emoStarCount").textContent = emoStars;
+    launchConfetti();
+    buttons.forEach(b=> b.disabled = true);
+    document.getElementById("emoNextBtn").style.display = "inline-block";
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("emoFeedback").textContent = "Casi. Inténtalo otra vez, tú puedes.";
+    document.getElementById("emoFeedback").className = "feedback retry";
+    setTimeout(()=> btn.classList.remove("wrong"), 400);
+  }
+}
+
+function emoNextQuestion(){
+  emoIdx++;
+  if(emoIdx >= emoQuestions.length){ emoShowEnd(); } else { emoRenderQuestion(); }
+}
+
+function emoShowEnd(){
+  document.getElementById("emoScreenGame").classList.add("hidden");
+  document.getElementById("emoScreenEnd").classList.remove("hidden");
+  document.getElementById("emoProgressFill").style.width = "100%";
+  const div = document.getElementById("emoFinalStars");
+  div.innerHTML = "";
+  for(let i=0;i<emoQuestions.length;i++){
+    div.innerHTML += `<svg viewBox="0 0 24 24" fill="${i<emoStars? '#FFC857':'#E4EDF5'}"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>`;
+  }
+  document.getElementById("emoMedalIcon").innerHTML = `
+    <svg viewBox="0 0 100 100" width="120" height="120">
+      <circle cx="50" cy="38" r="30" fill="#FFC857" stroke="#2B2D42" stroke-width="5"/>
+      <path d="M38 62 L28 95 L50 82 L72 95 L62 62" fill="#FF6F59" stroke="#2B2D42" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M35 40 Q50 58 65 40" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="38" cy="30" r="5" fill="#2B2D42"/><circle cx="62" cy="30" r="5" fill="#2B2D42"/>
+    </svg>`;
+  document.getElementById("emoEndMessage").textContent =
+    `Reconociste y expresaste ${emoStars} de ${emoQuestions.length} emociones. ¡Eres un gran explorador de emociones!`;
+}
+
+function emoRestartGame(){
+  emoIdx = 0; emoStars = 0; emoAnswered = false;
+  document.getElementById("emoStarCount").textContent = 0;
+  document.getElementById("emoScreenEnd").classList.add("hidden");
+  document.getElementById("emoScreenIntro").classList.remove("hidden");
+  document.getElementById("emoProgressFill").style.width = "0%";
+}
+
+function emoSpeakPrompt(){
+  const text = document.getElementById("emoPromptText").textContent + ". " + document.getElementById("emoSituationText").textContent;
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = "es-ES"; utter.rate = 0.9;
+    window.speechSynthesis.speak(utter);
+  }
+}
+
+/* ===================================================================
+   MÓDULO 2: APRENDO JUGANDO  (prefijo lrn)
+   =================================================================== */
+const LRN_TOTALS = { puzzle:8, sequence:5, memory:6 };
+let lrnProgress = { puzzle:0, sequence:0, memory:0 };
+
+function lrnTotalStars(){ return lrnProgress.puzzle + lrnProgress.sequence + lrnProgress.memory; }
+function lrnGrandTotal(){ return LRN_TOTALS.puzzle + LRN_TOTALS.sequence + LRN_TOTALS.memory; }
+
+function lrnUpdateHeader(){
+  document.getElementById("lrnStarCount").textContent = lrnTotalStars();
+  document.getElementById("lrnStarTotal").textContent = lrnGrandTotal();
+  document.getElementById("lrnBadgePuzzle").textContent = `${lrnProgress.puzzle} / ${LRN_TOTALS.puzzle} ⭐`;
+  document.getElementById("lrnBadgeSequence").textContent = `${lrnProgress.sequence} / ${LRN_TOTALS.sequence} ⭐`;
+  document.getElementById("lrnBadgeMemory").textContent = `${lrnProgress.memory} / ${LRN_TOTALS.memory} ⭐`;
+}
+
+function lrnFaceSVG(mood, size){
+  const moods = { feliz:{color:"#FFC857"}, contento:{color:"#06A77D"} };
+  const c = (moods[mood]||moods.feliz).color;
+  return `<svg viewBox="0 0 120 120" width="${size}" height="${size}">
+    <circle cx="60" cy="60" r="52" fill="${c}" stroke="#2B2D42" stroke-width="5"/>
+    <circle cx="42" cy="55" r="6" fill="#2B2D42"/><circle cx="78" cy="55" r="6" fill="#2B2D42"/>
+    <path d="M35 68 Q60 92 85 68" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+document.getElementById("lrnMascotMenu").innerHTML = lrnFaceSVG("feliz","100%");
+
+function lrnShowScreen(id){
+  ["lrnScreenMenu","lrnScreenPuzzle","lrnScreenSequence","lrnScreenMemory","lrnScreenEnd"].forEach(s=>{
+    document.getElementById(s).classList.toggle("hidden", s !== id);
+  });
+}
+function lrnBackToMenu(){ lrnUpdateHeader(); lrnShowScreen("lrnScreenMenu"); lrnCheckAllDone(); }
+function lrnCheckAllDone(){
+  if(lrnProgress.puzzle>=LRN_TOTALS.puzzle && lrnProgress.sequence>=LRN_TOTALS.sequence && lrnProgress.memory>=LRN_TOTALS.memory){
+    setTimeout(lrnShowEnd, 400);
+  }
+}
+function lrnSpeak(elId){
+  const text = document.getElementById(elId).textContent;
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "es-ES"; u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function lrnOpenActivity(name){
+  if(name === "puzzle"){ lrnShowScreen("lrnScreenPuzzle"); lrnStartPuzzleSet(); }
+  if(name === "sequence"){ lrnShowScreen("lrnScreenSequence"); lrnStartSequenceSet(); }
+  if(name === "memory"){ lrnShowScreen("lrnScreenMemory"); lrnStartMemory(); }
+  document.getElementById("lrnMascotPuzzle").innerHTML = lrnFaceSVG("feliz","100%");
+  document.getElementById("lrnMascotSequence").innerHTML = lrnFaceSVG("feliz","100%");
+  document.getElementById("lrnMascotMemory").innerHTML = lrnFaceSVG("feliz","100%");
+}
+
+/* --- Rompecabezas --- */
+const lrnPuzzleSets = [
+  { title:"El Jardín", pieces:[
+      {icon:"☀️", label:"sol"}, {icon:"☁️", label:"nube"},
+      {icon:"🌸", label:"flor"}, {icon:"🦋", label:"mariposa"} ] },
+  { title:"La Granja", pieces:[
+      {icon:"☀️", label:"sol"}, {icon:"🐄", label:"vaca"},
+      {icon:"🐔", label:"gallina"}, {icon:"🏠", label:"granero"} ] }
+];
+let lrnPuzzleIdx = 0, lrnPuzzleSelectedPiece = null, lrnPuzzleState = [];
+
+function lrnStartPuzzleSet(){ lrnPuzzleIdx = 0; lrnRenderPuzzle(); }
+
+function lrnRenderPuzzle(){
+  document.getElementById("lrnPuzzleNextBtn").style.display = "none";
+  document.getElementById("lrnPuzzleFeedback").textContent = "";
+  document.getElementById("lrnPuzzleFeedback").className = "feedback";
+  lrnPuzzleSelectedPiece = null;
+
+  if(lrnPuzzleIdx >= lrnPuzzleSets.length){ lrnBackToMenu(); return; }
+  const set = lrnPuzzleSets[lrnPuzzleIdx];
+  document.getElementById("lrnPuzzleTitle").textContent = `Escena: ${set.title}`;
+  document.getElementById("lrnPuzzlePrompt").textContent = "Toca una pieza y luego el espacio donde va.";
+
+  lrnPuzzleState = set.pieces.map((p,i)=>({...p, correctSlot:i}));
+
+  const board = document.getElementById("lrnPuzzleBoard");
+  board.innerHTML = "";
+  for(let i=0;i<4;i++){
+    const slot = document.createElement("div");
+    slot.className = "puzzle-slot";
+    slot.dataset.slot = i;
+    slot.innerHTML = `<span class="hint">${set.pieces[i].icon}</span>`;
+    slot.onclick = ()=> lrnPlaceSelected(i);
+    board.appendChild(slot);
+  }
+
+  const tray = document.getElementById("lrnPuzzleTray");
+  tray.innerHTML = "";
+  const shuffled = lrnPuzzleState.slice().sort(()=>Math.random()-0.5);
+  shuffled.forEach(piece=>{
+    const el = document.createElement("div");
+    el.className = "puzzle-piece";
+    el.textContent = piece.icon;
+    el.dataset.correct = piece.correctSlot;
+    el.onclick = ()=> lrnSelectPiece(el);
+    tray.appendChild(el);
+  });
+}
+
+function lrnSelectPiece(el){
+  if(el.classList.contains("used")) return;
+  document.querySelectorAll(".puzzle-piece").forEach(p=>p.classList.remove("selected"));
+  el.classList.add("selected");
+  lrnPuzzleSelectedPiece = el;
+}
+
+function lrnPlaceSelected(slotIndex){
+  if(!lrnPuzzleSelectedPiece) return;
+  const correct = parseInt(lrnPuzzleSelectedPiece.dataset.correct);
+  const slot = document.querySelector(`#lrnPuzzleBoard .puzzle-slot[data-slot="${slotIndex}"]`);
+  if(slot.classList.contains("filled")) return;
+
+  if(correct === slotIndex){
+    slot.innerHTML = lrnPuzzleSelectedPiece.textContent;
+    slot.classList.add("filled");
+    lrnPuzzleSelectedPiece.classList.add("used");
+    lrnPuzzleSelectedPiece = null;
+    document.getElementById("lrnPuzzleFeedback").textContent = "¡Muy bien colocado!";
+    document.getElementById("lrnPuzzleFeedback").className = "feedback good";
+
+    const allFilled = document.querySelectorAll("#lrnPuzzleBoard .puzzle-slot.filled").length === 4;
+    if(allFilled){
+      lrnProgress.puzzle++;
+      lrnUpdateHeader();
+      launchConfetti();
+      document.getElementById("lrnPuzzleFeedback").textContent = "¡Escena completa! 🎉";
+      document.getElementById("lrnPuzzleNextBtn").style.display = "inline-block";
+    }
+  } else {
+    document.getElementById("lrnPuzzleFeedback").textContent = "Ahí no va. Prueba otro espacio.";
+    document.getElementById("lrnPuzzleFeedback").className = "feedback retry";
+  }
+}
+
+function lrnNextPuzzle(){ lrnPuzzleIdx++; lrnRenderPuzzle(); }
+
+/* --- Secuencias --- */
+const lrnSequenceQuestions = [
+  { seq:["☀️","🌙","☀️","🌙","☀️"], answer:"🌙", options:["🌙","⭐","☁️"] },
+  { seq:["🔴","🔵","🔴","🔵","🔴"], answer:"🔵", options:["🔵","🟢","🟡"] },
+  { seq:["🍎","🍌","🍇","🍎","🍌"], answer:"🍇", options:["🍇","🍉","🍒"] },
+  { seq:["⭐","❤️","⭐","❤️","⭐"], answer:"❤️", options:["❤️","💚","💙"] },
+  { seq:["🐶","🐱","🐭","🐶","🐱"], answer:"🐭", options:["🐭","🐰","🐹"] }
+];
+let lrnSeqIdx = 0, lrnSeqAnswered = false;
+
+function lrnStartSequenceSet(){ lrnSeqIdx = 0; lrnRenderSequence(); }
+
+function lrnRenderSequence(){
+  lrnSeqAnswered = false;
+  document.getElementById("lrnSequenceNextBtn").style.display = "none";
+  document.getElementById("lrnSequenceFeedback").textContent = "";
+  document.getElementById("lrnSequenceFeedback").className = "feedback";
+
+  if(lrnSeqIdx >= lrnSequenceQuestions.length){ lrnBackToMenu(); return; }
+  const q = lrnSequenceQuestions[lrnSeqIdx];
+
+  const row = document.getElementById("lrnSequenceRow");
+  row.innerHTML = "";
+  q.seq.forEach(icon=>{
+    const span = document.createElement("span");
+    span.textContent = icon;
+    row.appendChild(span);
+  });
+  const qMark = document.createElement("div");
+  qMark.className = "q-mark";
+  qMark.textContent = "?";
+  row.appendChild(qMark);
+
+  const opts = document.getElementById("lrnSequenceOptions");
+  opts.innerHTML = "";
+  const shuffledOpts = q.options.slice().sort(()=>Math.random()-0.5);
+  shuffledOpts.forEach(opt=>{
+    const btn = document.createElement("button");
+    btn.className = "seq-opt";
+    btn.textContent = opt;
+    btn.onclick = ()=> lrnHandleSeqAnswer(btn, opt === q.answer);
+    opts.appendChild(btn);
+  });
+}
+
+function lrnHandleSeqAnswer(btn, isCorrect){
+  if(lrnSeqAnswered) return;
+  if(isCorrect){
+    lrnSeqAnswered = true;
+    btn.classList.add("correct");
+    document.getElementById("lrnSequenceFeedback").textContent = "¡Correcto! 🎉";
+    document.getElementById("lrnSequenceFeedback").className = "feedback good";
+    lrnProgress.sequence++;
+    lrnUpdateHeader();
+    launchConfetti();
+    document.querySelectorAll("#lrnSequenceOptions .seq-opt").forEach(b=> b.disabled = true);
+    document.getElementById("lrnSequenceNextBtn").style.display = "inline-block";
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("lrnSequenceFeedback").textContent = "Casi. Observa el patrón de nuevo.";
+    document.getElementById("lrnSequenceFeedback").className = "feedback retry";
+    setTimeout(()=> btn.classList.remove("wrong"), 400);
+  }
+}
+
+function lrnNextSequence(){ lrnSeqIdx++; lrnRenderSequence(); }
+
+/* --- Asociación (memoria) --- */
+const lrnMemoryPairs = [
+  ["🐶","🦴"], ["🐱","🐟"], ["🐝","🌸"],
+  ["☂️","🌧️"], ["🔑","🔒"], ["✏️","📒"]
+];
+let lrnMemoryCards = [], lrnMemoryFirst = null, lrnMemoryLock = false, lrnMemoryMatched = 0;
+
+function lrnStartMemory(){
+  lrnMemoryFirst = null; lrnMemoryLock = false; lrnMemoryMatched = 0;
+  document.getElementById("lrnMemoryFeedback").textContent = "";
+  document.getElementById("lrnMemoryFeedback").className = "feedback";
+
+  lrnMemoryCards = [];
+  lrnMemoryPairs.forEach((pair, i)=>{
+    lrnMemoryCards.push({icon:pair[0], pairId:i});
+    lrnMemoryCards.push({icon:pair[1], pairId:i});
+  });
+  lrnMemoryCards.sort(()=>Math.random()-0.5);
+
+  const grid = document.getElementById("lrnMemoryGrid");
+  grid.innerHTML = "";
+  lrnMemoryCards.forEach((card, index)=>{
+    const el = document.createElement("div");
+    el.className = "memory-card";
+    el.dataset.index = index;
+    el.textContent = "❓";
+    el.onclick = ()=> lrnFlipCard(el, card, index);
+    grid.appendChild(el);
+  });
+}
+
+function lrnFlipCard(el, card, index){
+  if(lrnMemoryLock || el.classList.contains("matched") || el.classList.contains("revealed")) return;
+  el.classList.add("revealed");
+  el.textContent = card.icon;
+
+  if(!lrnMemoryFirst){ lrnMemoryFirst = {el, card, index}; return; }
+
+  lrnMemoryLock = true;
+  if(lrnMemoryFirst.card.pairId === card.pairId && lrnMemoryFirst.index !== index){
+    el.classList.add("matched");
+    lrnMemoryFirst.el.classList.add("matched");
+    document.getElementById("lrnMemoryFeedback").textContent = "¡Pareja encontrada! 🎉";
+    document.getElementById("lrnMemoryFeedback").className = "feedback good";
+    lrnProgress.memory++;
+    lrnMemoryMatched++;
+    lrnUpdateHeader();
+    launchConfetti();
+    lrnMemoryFirst = null;
+    lrnMemoryLock = false;
+    if(lrnMemoryMatched === lrnMemoryPairs.length){
+      setTimeout(()=>{ lrnBackToMenu(); }, 900);
+    }
+  } else {
+    document.getElementById("lrnMemoryFeedback").textContent = "No son pareja, sigue intentando.";
+    document.getElementById("lrnMemoryFeedback").className = "feedback retry";
+    setTimeout(()=>{
+      el.classList.remove("revealed"); el.textContent = "❓";
+      lrnMemoryFirst.el.classList.remove("revealed"); lrnMemoryFirst.el.textContent = "❓";
+      lrnMemoryFirst = null;
+      lrnMemoryLock = false;
+    }, 700);
+  }
+}
+
+/* --- Resumen final --- */
+function lrnShowEnd(){
+  lrnShowScreen("lrnScreenEnd");
+  const div = document.getElementById("lrnFinalStars");
+  div.innerHTML = "";
+  const total = lrnGrandTotal();
+  for(let i=0;i<total;i++){
+    div.innerHTML += `<svg viewBox="0 0 24 24" fill="${i<lrnTotalStars()? '#FFC857':'#E4EDF5'}"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>`;
+  }
+  document.getElementById("lrnMedalIcon").innerHTML = `
+    <svg viewBox="0 0 100 100" width="120" height="120">
+      <circle cx="50" cy="38" r="30" fill="#FFC857" stroke="#2B2D42" stroke-width="5"/>
+      <path d="M38 62 L28 95 L50 82 L72 95 L62 62" fill="#FF6F59" stroke="#2B2D42" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M35 40 Q50 58 65 40" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="38" cy="30" r="5" fill="#2B2D42"/><circle cx="62" cy="30" r="5" fill="#2B2D42"/>
+    </svg>`;
+  document.getElementById("lrnEndMessage").textContent =
+    `Completaste los 3 juegos y ganaste ${lrnTotalStars()} de ${total} estrellas. ¡Piensas y observas muy bien!`;
+}
+
+function lrnRestartAll(){
+  lrnProgress = { puzzle:0, sequence:0, memory:0 };
+  lrnUpdateHeader();
+  lrnShowScreen("lrnScreenMenu");
+}
+
+lrnUpdateHeader();
+
+/* ===================================================================
+   MÓDULO 3: ME COMUNICO CON LOS DEMÁS  (prefijo com)
+   =================================================================== */
+const comScreens = ["comScreenIntro","comScreenJuego1","comScreenJuego2","comScreenJuego3","comScreenEmociones","comScreenFrase","comScreenEnd"];
+let comStars = 0;
+let comEmocionOk = false;
+
+function comShowScreen(id){
+  comScreens.forEach(s=>{
+    document.getElementById(s).classList.toggle("hidden", s !== id);
+  });
+  const idx = comScreens.indexOf(id);
+  const pct = Math.round((idx / (comScreens.length - 1)) * 100);
+  document.getElementById("comProgressFill").style.width = pct + "%";
+  document.getElementById("comStarCount").textContent = comStars;
+}
+
+function comIrPantalla(key){
+  const mapa = {
+    juego1:"comScreenJuego1", juego2:"comScreenJuego2", juego3:"comScreenJuego3",
+    emociones:"comScreenEmociones", frase:"comScreenFrase", end:"comScreenEnd"
+  };
+  comShowScreen(mapa[key]);
+  if(key === "end") comShowEnd();
+}
+
+function comElegir(btn, n){
+  const opciones = document.querySelectorAll("#comOp" + n + " .com-choice");
+  const fb = document.getElementById("comFb" + n);
+  const esCorrecta = btn.dataset.ok === "1";
+
+  opciones.forEach(o => { o.classList.add("locked"); o.onclick = null; });
+
+  if(esCorrecta){
+    btn.classList.add("correct");
+    fb.textContent = "¡Muy bien! Esa es una forma amable de hablar. 🎉";
+    fb.className = "feedback good";
+    comStars++;
+    launchConfetti();
+  } else {
+    btn.classList.add("wrong");
+    const correcta = document.querySelector("#comOp" + n + ' .com-choice[data-ok="1"]');
+    correcta.classList.add("correct");
+    fb.textContent = "Casi. Fíjate en la opción marcada en verde. ¡Sigue practicando!";
+    fb.className = "feedback retry";
+  }
+  document.getElementById("comSig" + n).style.display = "inline-block";
+  document.getElementById("comStarCount").textContent = comStars;
+}
+
+document.querySelectorAll(".com-emotion-card").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    if(comEmocionOk) return;
+    document.querySelectorAll(".com-emotion-card").forEach(x=>x.classList.remove("sel"));
+    t.classList.add("sel");
+    const fb = document.getElementById("comFbEmo");
+    if(t.dataset.e === "triste"){
+      fb.textContent = "¡Correcto! Oso está triste porque perdió su juguete. Está bien sentirse así a veces.";
+      fb.className = "feedback good";
+      comEmocionOk = true;
+      comStars++;
+      launchConfetti();
+      document.getElementById("comStarCount").textContent = comStars;
+      document.getElementById("comSigEmo").style.display = "inline-block";
+    } else {
+      fb.textContent = "Observa bien la carita de Oso e inténtalo de nuevo.";
+      fb.className = "feedback retry";
+    }
+  });
+});
+
+function comSpeak(id){
+  const texto = document.getElementById(id).textContent;
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = "es-ES";
+    u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function comShowEnd(){
+  const div = document.getElementById("comFinalStars");
+  div.innerHTML = "";
+  const total = 5;
+  for(let i=0;i<total;i++){
+    div.innerHTML += `<svg viewBox="0 0 24 24" fill="${i<comStars? '#FFC857':'#E4EDF5'}"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>`;
+  }
+  document.getElementById("comMedalIcon").innerHTML = `
+    <svg viewBox="0 0 100 100" width="120" height="120">
+      <circle cx="50" cy="38" r="30" fill="#8E7DBE" stroke="#2B2D42" stroke-width="5"/>
+      <path d="M38 62 L28 95 L50 82 L72 95 L62 62" fill="#FF6F59" stroke="#2B2D42" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M35 40 Q50 58 65 40" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="38" cy="30" r="5" fill="#2B2D42"/><circle cx="62" cy="30" r="5" fill="#2B2D42"/>
+    </svg>`;
+  const mensajes = {
+    5:"Aprendiste a saludar, pedir ayuda, compartir y hablar con respeto. ¡Eres un gran comunicador!",
+    4:"¡Muy buen trabajo! Sigue practicando cómo hablar con los demás.",
+    3:"Vas muy bien. Sigamos practicando cómo comunicarnos.",
+    2:"Diste buenos pasos. ¡Inténtalo de nuevo para mejorar!",
+    1:"Diste tu primer paso. ¡Vamos a intentarlo otra vez!",
+    0:"¡Vamos a intentarlo otra vez, tú puedes!"
+  };
+  document.getElementById("comEndMessage").textContent = mensajes[comStars] ?? mensajes[0];
+  document.getElementById("comStarCount").textContent = comStars;
+}
+
+function comRestart(){
+  comStars = 0;
+  comEmocionOk = false;
+  document.querySelectorAll("#moduleComunico .com-choice").forEach(o=>{
+    o.classList.remove("correct","wrong","locked");
+  });
+  document.querySelectorAll("#comOp1 .com-choice").forEach(o => o.onclick = function(){ comElegir(o,1); });
+  document.querySelectorAll("#comOp2 .com-choice").forEach(o => o.onclick = function(){ comElegir(o,2); });
+  document.querySelectorAll("#comOp3 .com-choice").forEach(o => o.onclick = function(){ comElegir(o,3); });
+  document.querySelectorAll("#comOp5 .com-choice").forEach(o => o.onclick = function(){ comElegir(o,5); });
+  document.querySelectorAll("#moduleComunico .feedback").forEach(f=>{ f.textContent = ""; f.className = "feedback"; });
+  document.querySelectorAll("#moduleComunico .next").forEach(b => b.style.display = "none");
+  document.querySelectorAll(".com-emotion-card").forEach(t => t.classList.remove("sel"));
+  comShowScreen("comScreenIntro");
+}
+
+comShowScreen("comScreenIntro");
+
+/* ===================================================================
+   MÓDULO 4: LOS DÍAS Y LOS MESES  (prefijo dm)
+   =================================================================== */
+const dmDias = [
+  { palabra:"lunes",     silabas:["lu","nes"],        icono:"🌞" },
+  { palabra:"martes",    silabas:["mar","tes"],       icono:"🔴" },
+  { palabra:"miércoles", silabas:["miér","co","les"], icono:"💧" },
+  { palabra:"jueves",    silabas:["jue","ves"],        icono:"⭐" },
+  { palabra:"viernes",   silabas:["vier","nes"],       icono:"🍃" },
+  { palabra:"sábado",    silabas:["sá","ba","do"],     icono:"🎈" },
+  { palabra:"domingo",   silabas:["do","min","go"],    icono:"🌈" },
+];
+const dmMeses = [
+  { palabra:"enero",      silabas:["e","ne","ro"],        icono:"❄️" },
+  { palabra:"febrero",    silabas:["fe","bre","ro"],       icono:"💗" },
+  { palabra:"marzo",      silabas:["mar","zo"],            icono:"🌷" },
+  { palabra:"abril",      silabas:["a","bril"],            icono:"🌦️" },
+  { palabra:"mayo",       silabas:["ma","yo"],             icono:"🌸" },
+  { palabra:"junio",      silabas:["ju","nio"],            icono:"☀️" },
+  { palabra:"julio",      silabas:["ju","lio"],            icono:"🏖️" },
+  { palabra:"agosto",     silabas:["a","gos","to"],        icono:"🌻" },
+  { palabra:"septiembre", silabas:["sep","tiem","bre"],    icono:"🍎" },
+  { palabra:"octubre",    silabas:["oc","tu","bre"],       icono:"🍂" },
+  { palabra:"noviembre",  silabas:["no","viem","bre"],     icono:"🍁" },
+  { palabra:"diciembre",  silabas:["di","ciem","bre"],     icono:"🎄" },
+];
+const dmColoresSilaba = ["#FF6F59","#FFC857","#06A77D","#8E7DBE"];
+const dmTodos = [
+  ...dmDias.map((d,i)=> ({ ...d, grupo:"dias", indice:i })),
+  ...dmMeses.map((m,i)=> ({ ...m, grupo:"meses", indice:i })),
+];
+const dmTOTAL = dmDias.length + dmMeses.length;
+const dmLogrados = new Set();      // aprender: "dias-0", "meses-3"...
+const dmAciertosJuego = new Set(); // diferenciar (mismo formato de clave)
+let dmActual = null;               // {grupo, i} para el modal
+let dmVoz = null;
+
+function dmPintarSilabas(silabas){
+  return silabas.map((s,idx)=>
+    `<span style="color:${dmColoresSilaba[idx % dmColoresSilaba.length]}">${s}</span>`
+  ).join('-');
+}
+
+function dmBuildCards(){
+  const contDias = document.getElementById('dmRejillaDias');
+  const contMeses = document.getElementById('dmRejillaMeses');
+  dmDias.forEach((d,i)=> contDias.appendChild(dmCrearCarta('dias', d, i)));
+  dmMeses.forEach((m,i)=> contMeses.appendChild(dmCrearCarta('meses', m, i)));
+  dmConstruirBarraJuego();
+  dmUpdateHeader();
+}
+
+function dmCrearCarta(grupo, item, i){
+  const btn = document.createElement('div');
+  btn.className = 'dm-carta';
+  btn.id = `dmCarta-${grupo}-${i}`;
+  btn.onclick = ()=> dmAbrirModal(grupo, i);
+  btn.innerHTML = `
+    <span class="numero">${i+1}</span>
+    <span class="icono">${item.icono}</span>
+    <span class="silabas">${dmPintarSilabas(item.silabas)}</span>
+    <span class="corazon-ganado">💗</span>
+  `;
+  return btn;
+}
+
+/* ---------- navegación interna del módulo ---------- */
+function dmGoToScreen(nombre){
+  const mapa = { menu:"dmScreenMenu", dias:"dmScreenDias", meses:"dmScreenMeses", juego:"dmScreenJuego", end:"dmScreenEnd" };
+  Object.values(mapa).forEach(id=>{
+    document.getElementById(id).classList.toggle('hidden', id !== mapa[nombre]);
+  });
+  window.speechSynthesis.cancel();
+  if (nombre === 'juego') dmIniciarJuego();
+}
+
+/* ---------- voz ---------- */
+function dmElegirVoz(){
+  const voces = window.speechSynthesis.getVoices();
+  dmVoz = voces.find(v=> v.lang && v.lang.toLowerCase().startsWith('es')) || voces[0] || null;
+}
+if ('speechSynthesis' in window){
+  dmElegirVoz();
+  window.speechSynthesis.onvoiceschanged = dmElegirVoz;
+}
+function dmHablar(texto, tasa=0.85){
+  return new Promise((resolve)=>{
+    if (!('speechSynthesis' in window)){ resolve(); return; }
+    const u = new SpeechSynthesisUtterance(texto);
+    if (dmVoz) u.voice = dmVoz;
+    u.lang = 'es-ES'; u.rate = tasa; u.pitch = 1.1;
+    u.onend = resolve; u.onerror = resolve;
+    window.speechSynthesis.speak(u);
+  });
+}
+function dmPausa(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+/* ---------- modal: aprender Días / Meses ---------- */
+function dmAbrirModal(grupo, i){
+  dmActual = { grupo, i };
+  const item = (grupo === 'dias' ? dmDias : dmMeses)[i];
+  document.getElementById('dmModalIcono').textContent = item.icono;
+  document.getElementById('dmModalSilabas').innerHTML = item.silabas
+    .map((s, idx)=> `<span id="dmModSyl-${idx}" style="color:${dmColoresSilaba[idx % dmColoresSilaba.length]}">${s}</span>`)
+    .join('<span style="color:#2B2D42">-</span>');
+  document.getElementById('dmModalFondo').classList.add('abierto');
+  setTimeout(dmReproducirActual, 250);
+}
+function dmCerrarModal(){
+  document.getElementById('dmModalFondo').classList.remove('abierto');
+  window.speechSynthesis.cancel();
+}
+async function dmReproducirActual(){
+  if (!dmActual) return;
+  window.speechSynthesis.cancel();
+  const item = (dmActual.grupo === 'dias' ? dmDias : dmMeses)[dmActual.i];
+  const btn = document.getElementById('dmBtnEscuchar');
+  btn.disabled = true;
+  for (let idx=0; idx<item.silabas.length; idx++){
+    document.querySelectorAll('#dmModalSilabas span').forEach(s=>s.classList.remove('activa'));
+    const el = document.getElementById(`dmModSyl-${idx}`);
+    if (el) el.classList.add('activa');
+    await dmHablar(item.silabas[idx], 0.7);
+    await dmPausa(120);
+  }
+  document.querySelectorAll('#dmModalSilabas span').forEach(s=>s.classList.remove('activa'));
+  await dmPausa(150);
+  await dmHablar(item.palabra, 0.9);
+  btn.disabled = false;
+  dmMarcarLogrado(dmActual.grupo, dmActual.i);
+}
+function dmMarcarLogrado(grupo, i){
+  const clave = `${grupo}-${i}`;
+  const yaEstaba = dmLogrados.has(clave);
+  dmLogrados.add(clave);
+  const carta = document.getElementById(`dmCarta-${grupo}-${i}`);
+  if (carta) carta.classList.add('completa');
+  if (!yaEstaba) launchConfetti();
+  dmUpdateHeader();
+}
+
+/* ---------- encabezado / insignias ---------- */
+function dmUpdateHeader(){
+  document.getElementById('dmStarCount').textContent = dmLogrados.size;
+  const nDias = [...dmLogrados].filter(k=>k.startsWith('dias-')).length;
+  const nMeses = [...dmLogrados].filter(k=>k.startsWith('meses-')).length;
+  document.getElementById('dmBadgeDias').textContent = `${nDias} / 7 ⭐`;
+  document.getElementById('dmBadgeMeses').textContent = `${nMeses} / 12 ⭐`;
+  document.getElementById('dmBadgeJuego').textContent = `${dmAciertosJuego.size} / 19 ⭐`;
+}
+
+/* ---------- juego: ¿Día o Mes? ---------- */
+let dmColaJuego = [];
+let dmIndiceJuego = 0;
+let dmIntentosItem = 0;
+
+function dmBarajar(arr){
+  for (let i=arr.length-1; i>0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function dmConstruirBarraJuego(){
+  const cont = document.getElementById('dmProgresoJuego');
+  cont.innerHTML = '';
+  for (let i=0; i<dmTOTAL; i++){
+    const s = document.createElement('span');
+    s.className = 'corazoncito';
+    s.id = `dmProgJuego-${i}`;
+    s.textContent = '💗';
+    cont.appendChild(s);
+  }
+}
+function dmActualizarBarraJuego(){
+  const n = dmAciertosJuego.size;
+  for (let i=0; i<dmTOTAL; i++){
+    const el = document.getElementById(`dmProgJuego-${i}`);
+    if (el) el.classList.toggle('logrado', i < n);
+  }
+  dmUpdateHeader();
+}
+function dmIniciarJuego(){
+  dmColaJuego = dmBarajar([...dmTodos]);
+  dmIndiceJuego = 0;
+  dmActualizarBarraJuego();
+  dmCargarItemJuego();
+}
+function dmCargarItemJuego(){
+  if (dmIndiceJuego >= dmColaJuego.length){
+    if (dmAciertosJuego.size >= dmTOTAL){ dmShowEnd(); return; }
+    dmColaJuego = dmBarajar([...dmTodos]);
+    dmIndiceJuego = 0;
+  }
+  dmIntentosItem = 0;
+  const item = dmColaJuego[dmIndiceJuego];
+  const tarjeta = document.getElementById('dmJuegoTarjeta');
+  tarjeta.classList.remove('volando','tiembla');
+  document.getElementById('dmJuegoIcono').textContent = item.icono;
+  document.getElementById('dmJuegoSilabas').innerHTML = dmPintarSilabas(item.silabas);
+  document.getElementById('dmCanastaDias').classList.remove('brillo');
+  document.getElementById('dmCanastaMeses').classList.remove('brillo');
+  setTimeout(()=> dmEscucharJuego(), 350);
+}
+function dmEscucharJuego(){
+  const item = dmColaJuego[dmIndiceJuego];
+  if (!item) return;
+  window.speechSynthesis.cancel();
+  dmHablar(item.palabra, 0.85);
+}
+function dmResponderJuego(respuesta){
+  const item = dmColaJuego[dmIndiceJuego];
+  if (!item) return;
+  const tarjeta = document.getElementById('dmJuegoTarjeta');
+  const correcto = item.grupo === respuesta;
+
+  if (correcto){
+    const clave = `${item.grupo}-${item.indice}`;
+    const yaEstaba = dmAciertosJuego.has(clave);
+    dmAciertosJuego.add(clave);
+    dmMarcarLogrado(item.grupo, item.indice);
+    tarjeta.classList.add('volando');
+    if (!yaEstaba) launchConfetti();
+    dmActualizarBarraJuego();
+    setTimeout(()=>{
+      dmIndiceJuego++;
+      dmCargarItemJuego();
+    }, 650);
+  } else {
+    dmIntentosItem++;
+    tarjeta.classList.remove('tiembla');
+    void tarjeta.offsetWidth;
+    tarjeta.classList.add('tiembla');
+    if (dmIntentosItem >= 2){
+      const idCorrecto = item.grupo === 'dias' ? 'dmCanastaDias' : 'dmCanastaMeses';
+      document.getElementById(idCorrecto).classList.add('brillo');
+    }
+  }
+}
+function dmShowEnd(){
+  dmGoToScreen('end');
+  const div = document.getElementById('dmFinalStars');
+  div.innerHTML = '';
+  for (let i=0; i<dmTOTAL; i++){
+    div.innerHTML += `<svg viewBox="0 0 24 24" fill="${i<dmAciertosJuego.size? '#FFC857':'#E4EDF5'}"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9L5.7 21l1.7-7L2 8.2l7.1-.6z"/></svg>`;
+  }
+  document.getElementById('dmMedalIcon').innerHTML = `
+    <svg viewBox="0 0 100 100" width="120" height="120">
+      <circle cx="50" cy="38" r="30" fill="#FFC857" stroke="#2B2D42" stroke-width="5"/>
+      <path d="M38 62 L28 95 L50 82 L72 95 L62 62" fill="#FF6F59" stroke="#2B2D42" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M35 40 Q50 58 65 40" stroke="#2B2D42" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <circle cx="38" cy="30" r="5" fill="#2B2D42"/><circle cx="62" cy="30" r="5" fill="#2B2D42"/>
+    </svg>`;
+  document.getElementById('dmEndMessage').textContent =
+    `Diferenciaste los ${dmTOTAL} días y meses. ¡Muy bien hecho!`;
+}
+function dmRestartAll(){
+  dmAciertosJuego.clear();
+  dmActualizarBarraJuego();
+  dmGoToScreen('menu');
+}
+
+dmBuildCards();
+</script>
+</body>
+</html>
